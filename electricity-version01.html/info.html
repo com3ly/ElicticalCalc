@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EUC</title>
+    <link rel="icon" href="save.jpeg" type="image/icon type">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e9f5f9;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 24px;
+            overflow: hidden;
+            position: relative;
+            height: 60px; /* Adjust according to your text size */
+        }
+        header a{
+            color: black;
+            text-decoration: none;
+
+        }
+        .header a:hover, .header a.active {
+    background-color: #0056b3;
+    color: #ffffff;
+    border-bottom: 3px solid #ffffff;
+}
+
+.header a {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.3s, color 0.3s, border-bottom 0.3s;
+    border-radius: 5px;
+}
+
+        .header-text {
+            position: absolute;
+            white-space: nowrap;
+            animation: moveText 10s linear infinite;
+            font-weight: bold;
+        }
+        @keyframes moveText {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #00796b;
+        }
+        p {
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .highlight {
+            background-color: #dbe9e6;
+            padding: 10px;
+            border-left: 4px solid #009688;
+            margin-bottom: 20px;
+        }
+        .benefits-list {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        .benefits-list li {
+            margin-bottom: 10px;
+        }
+        .image {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: lightblue;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="info.html" class="active">Information</a>
+            <a href="products.html">Products</a>
+            <a href="electricity.html">Electricity Calculator</a>
+        </nav>
+    </header>
+    <header>
+        <div class="header-text">EUC - Saving Electricity for a Greener Future</div>
+    </header>
+
+    <div class="container">
+        <h1><u>Why Saving Electricity Matters</u></h1>
+        <p>
+            Saving electricity is not only about reducing your utility bills but also about contributing to a more sustainable and healthier planet. Here are some key reasons why saving electricity is important:
+        </p>
+
+        <div class="highlight">
+            <h2>Benefits of Saving Electricity</h2>
+            <ul class="benefits-list">
+                <li><strong>Reduces Greenhouse Gas Emissions:</strong> By using less electricity, we reduce the demand for energy production, which in turn lowers the emissions of harmful greenhouse gases like carbon dioxide.</li>
+                <li><strong>Conserves Natural Resources:</strong> Electricity is often generated from non-renewable resources such as coal and natural gas. Reducing our electricity consumption helps to conserve these finite resources.</li>
+                <li><strong>Saves Money:</strong> Using less electricity means lower energy bills. This can have a significant impact on household and business budgets over time.</li>
+                <li><strong>Enhances Energy Security:</strong> Reducing our overall demand for electricity can lessen our dependence on imported energy and improve national energy security.</li>
+                <li><strong>Improves Public Health:</strong> Less pollution from power plants can lead to cleaner air and water, contributing to better public health outcomes.</li>
+            </ul>
+        </div>
+
+        <h2><u>How You Can Make a Difference</u></h2>
+        <p>
+            There are many simple and effective ways to save electricity and make a positive impact. Here are a few tips:
+        </p>
+        <ul class="benefits-list">
+            <li>Use energy-efficient appliances and light bulbs.</li>
+            <li>Unplug devices and chargers when not in use.</li>
+            <li>Optimize heating and cooling by using programmable thermostats.</li>
+            <li>Seal windows and doors to prevent energy loss.</li>
+            <li>Consider renewable energy sources like solar panels for your home or business.</li>
+        </ul>
+
+        <div class="image">
+            <img src="eee.gif" alt="Energy Saving">
+        </div>
+        
+        <p>
+            Every small action counts when it comes to saving electricity and protecting our environment. By making conscious choices about how we use energy, we can all contribute to a cleaner, more sustainable future.
+        </p>
+    </div>
+
+    <footer>
+        &copy; 2024 EUC. All Rights Reserved.    <a href="chatbot.html">
+            <img src="chatbot.png" width="100px" height="100px">
+        </a>
+    </footer>
+    <a href="#top">back to top</a>
+</body>
+</html>

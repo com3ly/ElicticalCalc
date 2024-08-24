@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EUC</title>
+    <link rel="icon" href="save.jpeg" type="image/icon type">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: lightskyblue;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="email"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: blue;
+        }
+        .result, .period-result, .comparison-result, .lowest-usage-result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .result {
+            color: red;
+        }
+        .period-result {
+            color: green;
+            white-space: pre-wrap; /* Preserve whitespace formatting */
+        }
+        .comparison-result {
+            color: blue;
+        }
+        .lowest-usage-result {
+            color: purple;
+        }
+        .header {
+            text-align: center;
+            text-decoration: none;
+            color: black;
+        }
+        .header a {
+            color: black;
+            text-decoration: none;
+            margin: 35px;
+        }
+        .header a:hover {
+            background-color: #0056b3;
+            color: #ffffff;
+            border-bottom: 3px solid #ffffff;
+        }
+        .header a.active {
+            background-color: #0056b3;
+            color: #ffffff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        td, th {
+            text-align: center;
+        }
+        .high-usage {
+            background-color: red;
+            color: white;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: lightblue;
+            color: white;
+        }
+    </style>
+    <header class="header">
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="info.html">Information</a>
+            <a href="products.html">Products</a>
+            <a href="electricity.html" class="active">Electricity Calculator</a>
+        </nav>
+    </header>
+</head>
+<body>
+    <div class="container">
+        <h1><u>Electricity Usage Calculator</u></h1>
+        
+        <!-- Personal Details Section -->
+        <h2>Personal Details</h2>
+        <label for="name">Name:</label>
+        <input type="text" id="name" placeholder="Your Name" required>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="you@example.com" required>
+        
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" placeholder="123-456-7890">
+        
+        <label for="address">Address:</label>
+        <textarea id="address" rows="4" placeholder="Your Address" required></textarea>
+        
+        <button onclick="openGoogleMaps()">View Address on Google Maps</button>
+
+        <!-- General Usage Limit Check -->
+        <h2>Check General Usage Limit</h2>
+        <label for="usage">Enter your electricity usage (kWh):</label>
+        <input type="number" id="usage" min="0" placeholder="e.g., 450" required>
+        <button onclick="calculateUsage()">Check Usage</button>
+        <div id="result" class="result"></div>
+
+        <!-- Period Consumption Limits Section -->
+        <h2>Check Period Consumption Limits</h2>
+        <label for="dailyUsage">Enter your daily electricity usage (kWh):</label>
+        <input type="number" id="dailyUsage" min="0" placeholder="e.g., 15" required>
+        
+        <label for="weeklyUsage">Enter your weekly electricity usage (kWh):</label>
+        <input type="number" id="weeklyUsage" min="0" placeholder="e.g., 100" required>
+        
+        <label for="monthlyUsage">Enter your monthly electricity usage (kWh):</label>
+        <input type="number" id="monthlyUsage" min="0" placeholder="e.g., 400" required>
+        
+        <button onclick="calculatePeriodUsage()">Check Period Usage</button>
+        <div id="periodResult" class="period-result"></div>
+
+        <!-- Address Comparison Section -->
+        <h2>Compare Address Usage</h2>
+        <label for="newAddress">Enter a new address:</label>
+        <textarea id="newAddress" rows="2" placeholder="New Address"></textarea>
+        
+        <label for="newUsage">Enter electricity usage for this address (kWh):</label>
+        <input type="number" id="newUsage" min="0" placeholder="e.g., 450">
+        
+        <button onclick="addAddress()">Add Address</button>
+        <button onclick="compareAddresses()">Compare Addresses</button>
+        <div id="comparisonResult" class="comparison-result"></div>
+        <div id="lowestUsageResult" class="lowest-usage-result"></div>
+
+        <!-- Address Table and Clear Button -->
+        <h2>Address Usage Table</h2>
+        <button onclick="clearTable()">Clear Table</button>
+        <table id="addressTable">
+            <thead>
+                <tr>
+                    <th>Address</th>
+                    <th>Usage (kWh)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be populated by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container">
+        <!-- Graph for Uncompared Data -->
+        <h2>Area Electricity Usage Calculator</h2>
+        <canvas id="dataChart" width="400" height="200"></canvas>
+    </div>
+
+    <script>
+        const GENERAL_LIMIT = 500; // kWh for general usage
+        const DAILY_LIMIT = 15; // kWh per day
+        const WEEKLY_LIMIT = 100; // kWh per week
+        const MONTHLY_LIMIT = 400; // kWh per month
+
+        let addressData = [];
+        let chart;
+
+        function playBeep() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            oscillator.type = 'sine'; // type of sound
+            oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // frequency in Hz (A4 note)
+            oscillator.connect(audioContext.destination);
+            oscillator.start();
+            setTimeout(() => oscillator.stop(), 500); // play for 0.5 seconds
+        }
+
+        function displayAdvisory() {
+            alert('To reduce electricity usage, consider using fewer appliances or optimizing their usage.');
+        }
+
+        function calculateUsage() {
+            const usageInput = parseFloat(document.getElementById('usage').value);
+            const resultDiv = document.getElementById('result');
+            
+            if (isNaN(usageInput) || usageInput < 0) {
+                resultDiv.textContent = 'Please enter a valid number for usage.';
+                resultDiv.style.color = 'red';
+                return;
+            }
+
+            if (usageInput > GENERAL_LIMIT) {
+                resultDiv.textContent = `Alert! Your electricity usage of ${usageInput} kWh exceeds the general limit of ${GENERAL_LIMIT} kWh.`;
+                resultDiv.style.color = 'red';
+                playBeep();
+                displayAdvisory();
+                resultDiv.textContent += '\nRecommendation: Consider switching off high-energy appliances like geysers, air conditioners, and heaters to reduce your consumption.';
+            } else {
+                resultDiv.textContent = `Your electricity usage of ${usageInput} kWh is within the general limit.`;
+                resultDiv.style.color = 'green';
+            }
+        }
+
+        function calculatePeriodUsage() {
+            const dailyUsage = parseFloat(document.getElementById('dailyUsage').value);
+            const weeklyUsage = parseFloat(document.getElementById('weeklyUsage').value);
+            const monthlyUsage = parseFloat(document.getElementById('monthlyUsage').value);
+            const periodResultDiv = document.getElementById('periodResult');
+
+            if ([dailyUsage, weeklyUsage, monthlyUsage].some(isNaN) || [dailyUsage, weeklyUsage, monthlyUsage].some(val => val < 0)) {
+                periodResultDiv.textContent = 'Please enter valid numbers for all period usages.';
+                periodResultDiv.style.color = 'red';
+                return;
+            }
+
+            let message = '';
+
+            function checkUsage(usage, limit, period) {
+                if (usage > limit) {
+                    message += `Alert! Your ${period} usage of ${usage} kWh exceeds the ${period} limit of ${limit} kWh.\n`;
+                } else {
+                    message += `Your ${period} usage of ${usage} kWh is within the ${period} limit.\n`;
+                }
+            }
+
+            checkUsage(dailyUsage, DAILY_LIMIT, 'daily');
+            checkUsage(weeklyUsage, WEEKLY_LIMIT, 'weekly');
+            checkUsage(monthlyUsage, MONTHLY_LIMIT, 'monthly');
+
+            periodResultDiv.textContent = message;
+            periodResultDiv.style.color = message.includes('Alert!') ? 'red' : 'green';
+        }
+
+        function addAddress() {
+            const newAddress = document.getElementById('newAddress').value.trim();
+            const newUsage = parseFloat(document.getElementById('newUsage').value);
+            
+            if (!newAddress || isNaN(newUsage) || newUsage < 0) {
+                alert('Please enter a valid address and usage.');
+                return;
+            }
+
+            addressData.push({ address: newAddress, usage: newUsage });
+            updateTable();
+            updateChart(); // Update chart with the new data
+            findLowestUsage();
+        }
+
+        function updateTable() {
+            const tableBody = document.getElementById('addressTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            addressData.forEach(data => {
+                const row = tableBody.insertRow();
+                const addressCell = row.insertCell(0);
+                const usageCell = row.insertCell(1);
+                addressCell.textContent = data.address;
+                usageCell.textContent = data.usage;
+
+                // Apply red background color to rows with usage over 500 kWh
+                if (data.usage > GENERAL_LIMIT) {
+                    row.classList.add('high-usage');
+                } else {
+                    row.classList.remove('high-usage');
+                }
+            });
+        }
+
+        function findLowestUsage() {
+            const lowestUsageResultDiv = document.getElementById('lowestUsageResult');
+            if (addressData.length === 0) {
+                lowestUsageResultDiv.textContent = 'No addresses available.';
+                return;
+            }
+
+            const lowest = addressData.reduce((min, data) => data.usage < min.usage ? data : min);
+            lowestUsageResultDiv.textContent = `The address with the lowest usage is ${lowest.address} with ${lowest.usage} kWh.`;
+        }
+
+        function clearTable() {
+            const tableBody = document.getElementById('addressTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            addressData = []; // Clear the address data array
+
+            // Optionally, reset the chart and the lowest usage result
+            updateChart(); // Update chart with no data
+            findLowestUsage();
+        }
+
+        function compareAddresses() {
+            const newAddress = document.getElementById('newAddress').value.trim();
+            const newUsage = parseFloat(document.getElementById('newUsage').value);
+            const comparisonResultDiv = document.getElementById('comparisonResult');
+
+            if (!newAddress || isNaN(newUsage) || newUsage < 0) {
+                comparisonResultDiv.textContent = 'Please enter a valid address and usage.';
+                comparisonResultDiv.style.color = 'red';
+                return;
+            }
+
+            const comparison = addressData.find(data => data.address === newAddress);
+            if (comparison) {
+                if (comparison.usage === newUsage) {
+                    comparisonResultDiv.textContent = `The usage for ${newAddress} matches the entered usage of ${newUsage} kWh.`;
+                    comparisonResultDiv.style.color = 'blue';
+                } else {
+                    comparisonResultDiv.textContent = `The usage for ${newAddress} does not match the entered usage. Existing usage: ${comparison.usage} kWh.`;
+                    comparisonResultDiv.style.color = 'red';
+                }
+            } else {
+                comparisonResultDiv.textContent = `No data found for ${newAddress}.`;
+                comparisonResultDiv.style.color = 'red';
+            }
+        }
+
+        function openGoogleMaps() {
+            const address = document.getElementById('address').value;
+            if (address) {
+                const encodedAddress = encodeURIComponent(address);
+                window.open(`https://www.google.com/maps/search/?api=1&query=${encodedAddress}`, '_blank');
+            } else {
+                alert('Please enter an address.');
+            }
+        }
+
+        function updateChart() {
+            const ctx = document.getElementById('dataChart').getContext('2d');
+
+            if (chart) {
+                chart.destroy(); // Destroy existing chart instance if it exists
+            }
+
+            const labels = addressData.map(data => data.address);
+            const data = addressData.map(data => data.usage);
+
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Electricity Usage (kWh)',
+                        data: data,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)', // Default color
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+       <footer>
+        &copy; 2024 EUC. All Rights Reserved.    <a href="chatbot.html">
+            <img src="chatbot.png" width="100px" height="100px">
+            <a href="appliances.html">Check Certain Home Appliances</a>
+        </a>
+    </footer>
+ 
+</body>
+</html>

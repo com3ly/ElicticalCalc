@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EUC</title>
+    <link rel="icon" href="save.jpeg" type="image/icon type">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="electricity.html">Electricity Calculator</a>
+            <a href="products.html">Products</a>
+            <a href="quotation.html" class="active">Quotation</a>
+        </nav>
+    </header>
+    
+    <main class="container">
+        <h1>Get a Quotation</h1>
+        <p>Use this page to get a quotation for our products in South African Rand (ZAR). You can also convert the total amount into USD and EUR.</p>
+
+        <section>
+            <h2>Product Details</h2>
+            <form id="quotationForm">
+                <label for="product">Select a Product:</label>
+                <select id="product">
+                    <option value="100">LED Light Bulb - R100 each</option>
+                    <option value="800">Smart Thermostat - R800</option>
+                    <option value="3000">Energy-Efficient Refrigerator - R3000</option>
+                    <option value="15000">Solar Panel Kit - R15000</option>
+                </select>
+                
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" min="1" value="1" required>
+                
+                <button type="button" onclick="getQuotation()">Get Quotation</button>
+            </form>
+            <div id="quotationResult" class="result"></div>
+        </section>
+        
+        <section>
+            <h2>Currency Converter</h2>
+            <p>Enter the amount in ZAR to see the equivalent in USD and EUR.</p>
+            <form id="currencyForm">
+                <label for="amountZAR">Amount in ZAR:</label>
+                <input type="number" id="amountZAR" min="0" placeholder="Enter amount in ZAR" required>
+                <button type="button" onclick="convertCurrency()">Convert</button>
+            </form>
+            <div id="currencyResult" class="result"></div>
+        </section>
+    </main>
+
+    <script>
+        const USD_RATE = 19; // 1 USD = 19 ZAR
+        const EUR_RATE = 21; // 1 EUR = 21 ZAR
+
+        function getQuotation() {
+            const productSelect = document.getElementById('product');
+            const quantityInput = document.getElementById('quantity');
+            const resultDiv = document.getElementById('quotationResult');
+
+            const productPrice = parseFloat(productSelect.value);
+            const quantity = parseInt(quantityInput.value);
+
+            if (isNaN(productPrice) || isNaN(quantity) || quantity < 1) {
+                resultDiv.textContent = 'Please select a valid product and quantity.';
+                resultDiv.style.color = 'red';
+                return;
+            }
+
+            const totalCostZAR = productPrice * quantity;
+            const totalCostUSD = (totalCostZAR / USD_RATE).toFixed(2);
+            const totalCostEUR = (totalCostZAR / EUR_RATE).toFixed(2);
+
+            resultDiv.textContent = `
+                Total Cost: R${totalCostZAR}
+                Equivalent in USD: $${totalCostUSD}
+                Equivalent in EUR: €${totalCostEUR}
+            `;
+            resultDiv.style.color = 'green';
+        }
+
+        function convertCurrency() {
+            const amountZAR = parseFloat(document.getElementById('amountZAR').value);
+            const resultDiv = document.getElementById('currencyResult');
+
+            if (isNaN(amountZAR) || amountZAR < 0) {
+                resultDiv.textContent = 'Please enter a valid amount.';
+                resultDiv.style.color = 'red';
+                return;
+            }
+
+            const amountUSD = (amountZAR / USD_RATE).toFixed(2);
+            const amountEUR = (amountZAR / EUR_RATE).toFixed(2);
+
+            resultDiv.textContent = `
+                Equivalent in USD: $${amountUSD}
+                Equivalent in EUR: €${amountEUR}
+            `;
+            resultDiv.style.color = 'green';
+        }
+    </script>
+</body>
+</html>
